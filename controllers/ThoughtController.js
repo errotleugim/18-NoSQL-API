@@ -1,15 +1,18 @@
 const { Thought, User } = require('../models');
 
 module.exports = {
-  // Get all courses
+  // Get all thoughts
   getAllThoughts(req, res) {
     Thought.find()
-      .then((courses) => res.json(courses))
+     .populate({path: 'reactions', select: '-__v'})
+     .select('-__v')
+     .then((ThoughtsData) => res.json(ThoughtsData))
       .catch((err) => res.status(500).json(err));
   },
   // Get a course
-  getThoughtsById(req, res) {
-    Thought.findOne({ _id: req.params.courseId })
+  getThoughtsById({params}, res) {
+    Thought.findOne({ _id: req.params.id })
+      .populate({path: 'reactions', select: '-__v'})
       .select('-__v')
       .then((course) =>
         !course
@@ -53,4 +56,6 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 };
+
+
 //Need to add reactions
