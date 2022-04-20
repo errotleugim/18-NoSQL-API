@@ -53,7 +53,7 @@ module.exports = {
     .select('-__v')
       .then((thoughtData) =>
         !thoughtData
-          ? res.status(404).json({ message: 'No thought with this id!' })
+          ? res.status(404).json({ message: 'No thought with that id' })
           : res.json(thoughtData)
       )
       .catch((err) => res.status(500).json(err));
@@ -65,7 +65,7 @@ module.exports = {
     .select('-__v')
     .then(thoughtData => {
     if (!thoughtData) {
-        res.status(404).json({message: 'No thoughts with this ID!'});
+        res.status(404).json({message: 'No thoughts with that id'});
         return;
     }
     res.json(thoughtData);
@@ -79,7 +79,7 @@ deleteReaction({params}, res) {
     Thought.findOneAndUpdate({_id: params.thoughtId}, {$pull: {reactions: {reactionId: params.reactionId}}}, {new : true})
     .then(reactionData => {
         if (!reactionData) {
-            res.status(404).json({message: 'No thoughts with this ID!'});
+            res.status(404).json({message: 'No thoughts with that id'});
             return;
         }
         res.json(reactionData);
