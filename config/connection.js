@@ -1,10 +1,22 @@
+const express = require('express');
 const mongoose = require('mongoose');
 
-// Wrap Mongoose around local connection to MongoDB
-mongoose.connect('mongodb://localhost:27017/mygroceryDB', {
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+app.use(require('./routes'));
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/18-NoSQL-Social-Network-API', {
+  useFindAndModify: false,
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
-// Export connection
-module.exports = mongoose.connection;
+// Use this to log mongo queries being executed!
+mongoose.set('debug', true);
+
+app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
