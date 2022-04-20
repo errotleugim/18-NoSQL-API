@@ -24,7 +24,7 @@ module.exports = {
   // Create a course
   createThought(req, res) {
     Thought.create(req.body)
-      .then((course) => res.json(course))
+      .then((thought) => res.json(thought))
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
@@ -33,10 +33,10 @@ module.exports = {
   // Delete a course
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.courseId })
-      .then((course) =>
-        !course
-          ? res.status(404).json({ message: 'No course with that ID' })
-          : Student.deleteMany({ _id: { $in: course.students } })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with that ID' })
+          : User.deleteMany({ _id: { $in: course.students } })
       )
       .then(() => res.json({ message: 'Course and students deleted!' }))
       .catch((err) => res.status(500).json(err));
@@ -50,11 +50,40 @@ module.exports = {
     )
       .then((course) =>
         !course
-          ? res.status(404).json({ message: 'No course with this id!' })
+          ? res.status(404).json({ message: 'No thought with this id!' })
           : res.json(course)
       )
       .catch((err) => res.status(500).json(err));
   },
+
+  addReaction({params, body}, res) {
+    Thought.findOneAndUpdate({_id: params.thoughtId}, {$push: {reactions: body}}, {new: true, runValidators: true})
+    .populate({path: 'reactions', select: '-__v'})
+    .select('-__v')
+    .then(dbThoughtsData => {
+    if (!dbThoughtsData) {
+        res.status(404).json({message: 'No thoughts with this particular ID!'});
+        return;
+    }
+    res.json(dbThoughtsData);
+    })
+    .catch(err => res.status(400).json(err))
+
+},
+
+// Delete a reaction by ID
+deleteReaction({params}, res) {
+    Thought.findOneAndUpdate({_id: params.thoughtId}, {$pull: {reactions: {reactionId: params.reactionId}}}, {new : true})
+    .then(dbThoughtsData => {
+        if (!dbThoughtsData) {
+            res.status(404).json({message: 'No thoughts with this particular ID!'});
+            return;
+        }
+        res.json(dbThoughtsData);
+    })
+    .catch(err => res.status(400).json(err));
+}
+
 };
 
 
