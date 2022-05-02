@@ -9,11 +9,12 @@ module.exports = {
      .then((thoughtData) => res.json(thoughtData))
       .catch((err) => res.status(500).json(err));
   },
-  // Get a course
+  // Get a thought
   getThoughtById({params}, res) {
-    Thought.findOne({ _id: req.params.id })
+    Thought.findOne({ _id: params.id })
       .populate({path: 'reactions', select: '-__v'})
       .select('-__v')
+      // .sort({_id: -1})
       .then((thoughtData) =>
         !thoughtData
           ? res.status(404).json({ message: 'No thoughts with that ID' })

@@ -14,7 +14,7 @@ router.route('/')
 .get(getAllThoughts)
 .post(createThought);
 
-// /api/thoughtss/:courseId
+// /api/thoughts/:thoughtId
 router
   .route('/:thoughtId')
   .get(getThoughtById)
