@@ -8,7 +8,7 @@ const {
     deleteUser,
     addFriend,
     removeFriend
-} = require('../../controllers/usercontroller');
+} = require('../../controllers/userController');
 
 // Set up GET all and POST at /api/users
 router
@@ -16,20 +16,20 @@ router
     .get()
     .post();
 
-// /api/users/:id
+// /api/users
 router
     .route('/:id')
     .get(getUserById)
     .put(updateUser)
     .delete(deleteUser)
 
-// /api/users/:userId/friends/:friendId
+// /api/users/:userId/friends/
 router
     .route('/:id/friends/:friendId')
     .post(addFriend)
     .delete(removeFriend);
 
-// /api/users
+// /api/user
 router
     .route('/')
     .get(getAllUsers)
