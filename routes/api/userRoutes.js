@@ -14,12 +14,12 @@ router.route('/')
   .post(createUser);
 
 // /api/students/:studentId
-router.route('/:userId')
+router.route('/:id')
   .get(getSingleUser)
   .delete(deleteUser);
 
 // friends
-router.route('/:userId/friendss')
+router.route('/:userId/friends')
   .post(addFriend);
 
 // friends/friendid

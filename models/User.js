@@ -15,18 +15,19 @@ const UserSchema = new Schema(
       //Validate with regex later
     },
     thoughts: {
-      type: Schema.Type.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "thoughts"
     },
     friends: {
-      type: Schema.Type.ObjectId,
-      ref: "friends,"
+      type: Schema.Types.ObjectId,
+      ref: "User"
     },
 
   },
   {
     toJSON: {
       virtuals: true,
+      getters: true
     },
     id: false,
   }

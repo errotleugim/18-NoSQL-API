@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+const ReactionSchema = require('./Reaction');
 // Schema to create Student model
 const ThoughtSchema = new Schema(
   {
@@ -30,33 +30,33 @@ const ThoughtSchema = new Schema(
 );
 //Make virtual for reaction ncount
 
-const ReactionSchema = new Schema(
-  {
-    reactionId: {
-      type: Schema.Types.ObjectId,
-      default: ()=> new Types.ObjectId()
-    },
-    reactionBody: {
-      type: String,
-      required: true,
-      maxlength: 280
-    },
-    username: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    }
-  },
-  {
-    toJSON: {
-      getters: true
-    }
-  }
+// const ReactionSchema = new Schema(
+//   {
+//     reactionId: {
+//       type: Schema.Types.ObjectId,
+//       default: ()=> new Types.ObjectId()
+//     },
+//     reactionBody: {
+//       type: String,
+//       required: true,
+//       maxlength: 280
+//     },
+//     username: {
+//       type: String,
+//       required: true
+//     },
+//     createdAt: {
+//       type: Date,
+//       default: Date.now,
+//     }
+//   },
+//   {
+//     toJSON: {
+//       getters: true
+//     }
+//   }
   
-)
+// )
 const Thought = model('Thought', ThoughtSchema);
 
 module.exports = Thought;
